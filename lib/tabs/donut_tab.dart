@@ -10,6 +10,8 @@ class DonutTab extends StatelessWidget {
     ["Strawberry", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
     ["Grape Ape", "84", Colors.purple, "lib/images/images/grape_donut.png"],
     ["Choco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"]
+                                    //lib\images\images\chocolate_donut.png
+    
   ];
 
   @override
@@ -20,7 +22,10 @@ class DonutTab extends StatelessWidget {
       itemCount:donutsOnSale.length,
       padding: EdgeInsets.all(8.0),
       //Prepa 1- Organiza cómo distribuir los elementos en una cuadricula
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),//Num de columnas
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, //Num de columnas
+        childAspectRatio: 1/1.5 //Aspect ratio-proporción-ancho/alto
+      ),
     itemBuilder:(context, index){
       return DonutTile(
         donutFlavor: donutsOnSale[index][0],
