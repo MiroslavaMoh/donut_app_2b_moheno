@@ -6,10 +6,10 @@ class DonutTab extends StatelessWidget {
 
   //lista donas
   final List donutsOnSale = [
-    ["Ice Cream", "36", Colors.blue,"lib/images/images/icecream_donut.png"],
-    ["Strawberry", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
-    ["Grape Ape", "84", Colors.purple, "lib/images/images/grape_donut.png"],
-    ["Choco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"]
+    ["Ice Cream","Krispy Kreme", "36", Colors.blue,"lib/images/images/icecream_donut.png"],
+    ["Strawberry","Dunkin donuts", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
+    ["Grape Ape","Soriana", "84", Colors.purple, "lib/images/images/grape_donut.png"],
+    ["Choco","Costco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"]
                                     //lib\images\images\chocolate_donut.png
     
   ];
@@ -24,14 +24,15 @@ class DonutTab extends StatelessWidget {
       //Prepa 1- Organiza cómo distribuir los elementos en una cuadricula
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, //Num de columnas
-        childAspectRatio: 1/1.5 //Aspect ratio-proporción-ancho/alto
+        childAspectRatio: 1/1.35 //Aspect ratio-proporción-ancho/alto
       ),
     itemBuilder:(context, index){
       return DonutTile(
         donutFlavor: donutsOnSale[index][0],
-        donutPrice: donutsOnSale[index][1],
-        donutColor: donutsOnSale[index][2],
-        imageName: donutsOnSale[index][3],
+        donutStore:donutsOnSale[index][1],
+        donutPrice: donutsOnSale[index][2],
+        donutColor: donutsOnSale[index][3],
+        imageName: donutsOnSale[index][4],
       );
     },
     );
