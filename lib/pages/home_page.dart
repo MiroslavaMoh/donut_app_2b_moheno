@@ -65,8 +65,43 @@ class _HomePageState extends State<HomePage> {
               ]),
             ),
             //Carrito
-      
-          ],)
+
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+
+                const Padding(
+                padding: EdgeInsets.only(left:28),
+                child: Column(
+                  children:[
+                    Text('2 Items | \$45',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  
+                  Text("Delivery Chargers Included",
+                  style: TextStyle(fontSize: 12),
+                  ),
+                  ],
+                ),
+                ),
+
+                  ElevatedButton(onPressed: (){}, 
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    padding: const EdgeInsets.symmetric(vertical:5, horizontal:25),
+                    ),
+                  
+                  child: const Text('View Cart',style: TextStyle(color: Colors.white))),
+                
+
+            ],),
+
+          ),
+         ],
+        ),
       ),
     );
   }
