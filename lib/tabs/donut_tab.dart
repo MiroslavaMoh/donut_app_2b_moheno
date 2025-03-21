@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 class DonutTab extends StatelessWidget {
   //const DonutTab({super.key});
 
+  final void Function(String, double) addToCart; // ✅ Usa void Function
+
+ DonutTab({super.key, required this.addToCart}); 
+
   //lista donas
   final List donutsOnSale = [
     ["Ice Cream","Krispy Kreme", "36", Colors.blue,"lib/images/images/icecream_donut.png"],
+    ["Strawberry","Dunkin donuts", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
+    ["Grape Ape","Soriana", "84", Colors.purple, "lib/images/images/grape_donut.png"],
+    ["Choco","Costco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"],
+     ["Ice Cream","Krispy Kreme", "36", Colors.blue,"lib/images/images/icecream_donut.png"],
     ["Strawberry","Dunkin donuts", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
     ["Grape Ape","Soriana", "84", Colors.purple, "lib/images/images/grape_donut.png"],
     ["Choco","Costco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"]
@@ -33,6 +41,7 @@ class DonutTab extends StatelessWidget {
         donutPrice: donutsOnSale[index][2],
         donutColor: donutsOnSale[index][3],
         imageName: donutsOnSale[index][4],
+        onTap: () => addToCart(donutsOnSale[index][0], double.parse(donutsOnSale[index][2])),  // Llama a addToCart
       );
     },
     );

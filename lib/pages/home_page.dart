@@ -5,6 +5,7 @@ import 'package:donut_app_2b_moheno/tabs/pizza_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/smoothie_tab.dart';
 import 'package:donut_app_2b_moheno/utils/my_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:donut_app_2b_moheno/utils/cart_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  List<Map<String, dynamic>> _cartItems = [];
+  double _totalPrice = 0.0;
+
+  void addToCart(String name, double price) {
+    setState(() {
+      _cartItems.add({"name": name, "price": price});
+      _totalPrice += price;
+    });
+  }
+
+
   //ista de tabs
   List<Widget>myTabs=[
     MyTab(iconPath:'lib/icons/icons/donut.png'),
@@ -57,30 +70,30 @@ class _HomePageState extends State<HomePage> {
             //Tabbar view (contenido de pestañas)
             Expanded(
               child: TabBarView(children: [
-                DonutTab(),
-                BurgerTab(),
-                SmoothieTab(),
-                PancakesTab(),
-                PizzaTab()
+                //DonutTab(addToCart: addToCart), // Pasamos la función a DonutTab
+                 DonutTab(addToCart: (name, price) => addToCart(name, price)),
+                  BurgerTab(addToCart: (name, price) => addToCart(name, price)),
+                  SmoothieTab(addToCart: (name, price) => addToCart(name, price)),
+                  PancakesTab(addToCart: (name, price) => addToCart(name, price)),
+                  PizzaTab(addToCart: (name, price) => addToCart(name, price)),
               ]),
             ),
             //Carrito
 
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(vertical:18, horizontal:18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
 
-                const Padding(
-                padding: EdgeInsets.only(left:28),
+                Padding(
+                padding: const EdgeInsets.only(left:8),
                 child: Column(
                   children:[
-                    Text('2 Items | \$45',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  
+                    Text('${_cartItems.length} Items | \$${_totalPrice.toStringAsFixed(2)}',
+                      style: TextStyle(fontWeight: FontWeight.bold)),             
+
                   Text("Delivery Chargers Included",
                   style: TextStyle(fontSize: 12),
                   ),
