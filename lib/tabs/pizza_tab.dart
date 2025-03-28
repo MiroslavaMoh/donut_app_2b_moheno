@@ -31,7 +31,7 @@ class PizzaTab extends StatelessWidget {
       //Prepa 1- Organiza cómo distribuir los elementos en una cuadricula
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, //Num de columnas
-        childAspectRatio: 1/1.4 //Aspect ratio-proporción-ancho/alto
+        childAspectRatio: 1/1.5 //Aspect ratio-proporción-ancho/alto
       ),
     itemBuilder:(context, index){
       return DonutTile(

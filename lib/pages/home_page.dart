@@ -5,7 +5,7 @@ import 'package:donut_app_2b_moheno/tabs/pizza_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/smoothie_tab.dart';
 import 'package:donut_app_2b_moheno/utils/my_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:donut_app_2b_moheno/utils/cart_page.dart';
+import 'package:donut_app_2b_moheno/common/color_extension.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   //ista de tabs
   List<Widget>myTabs=[
     MyTab(iconPath:'lib/icons/icons/donut.png'),
-    //E:\Users\DELL\Downloads\unidad_2\donut_app_2b_Moheno\donut_app_2b_moheno\lib\icons\icons\burger.png
     MyTab(iconPath:'lib/icons/icons/burger.png'),
     MyTab(iconPath:'lib/icons/icons/smoothie.png'),
     MyTab(iconPath:'lib/icons/icons/pancakes.png'),
@@ -53,6 +52,7 @@ class _HomePageState extends State<HomePage> {
             child: Icon(Icons.person),
           )],
         ),
+
         body: Column(
           children: [
             //Texto principal
@@ -60,11 +60,13 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
               child: Row(
                 children:[
-                  Text("Tengo el deseo de ingerir el sustento ", style:TextStyle(fontSize: 30)),
-                  Text("vital", style:TextStyle(fontSize:32,fontWeight:FontWeight.bold,decoration:TextDecoration.underline))
+                  Text("Tengo el deseo de ingerir  \nel sustento vital", style:TextStyle(fontSize: 28)),
+                  //Text("vital", style:TextStyle(fontSize:30,fontWeight:FontWeight.bold,decoration:TextDecoration.underline))
                 ]
               ),
             ),
+
+            
             //Tab bar
             TabBar(tabs:myTabs),
             //Tabbar view (contenido de pestañas)
@@ -78,6 +80,8 @@ class _HomePageState extends State<HomePage> {
                   PizzaTab(addToCart: (name, price) => addToCart(name, price)),
               ]),
             ),
+            
+            
             //Carrito
 
           Container(
@@ -103,7 +107,7 @@ class _HomePageState extends State<HomePage> {
 
                   ElevatedButton(onPressed: (){}, 
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
+                    backgroundColor: TColor.primary,
                     padding: const EdgeInsets.symmetric(vertical:5, horizontal:25),
                     ),
                   

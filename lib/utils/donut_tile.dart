@@ -42,7 +42,7 @@ class DonutTile extends StatelessWidget {
                     padding: 
                       const EdgeInsets.symmetric( vertical:8, horizontal: 18),
                     child:Text('\$ $donutPrice', 
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color:donutColor[800] )), //Para poner variable poner $
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color:donutColor[800] )), //Para poner variable poner $
                   )
                 ],
                 ),
