@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822034519769",
+    "project_id": "marzo-miros-2b",
+    "storage_bucket": "marzo-miros-2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822034519769:android:490e1080c32d68b25110c8",
+        "android_client_info": {
+          "package_name": "com.example.donut_app_2b_moheno"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2baOowoNEV-EYXKQSUSsKyUf7UD6LKLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

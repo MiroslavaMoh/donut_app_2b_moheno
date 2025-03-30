@@ -4,8 +4,9 @@ import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
-//import 'package:donut_app_2b_moheno/screen/home/welcome_screen.dart';
-//import 'package:meditationapp/screen/login/startup_screen.dart';
+
+//Librerias de firebase para autentificación
+import 'package:firebase_auth/firebase_auth.dart';
 
 //Página de inicio
 
@@ -19,6 +20,57 @@ class SignUpScreen extends StatefulWidget {
 class  _SignUpScreenState extends State <SignUpScreen> {
 
   bool isTrue = false; //Checkbox de privadidad falso por default
+
+  //inicio - Variables para autentificación de usuario por contraseña
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+
+  // fin - Variables para autentificación de usuario por contraseña
+
+
+
+  //Inicio - Registro
+
+   Future<void> _registerUser() async {
+    try {
+      // Obtiene los valores de los campos
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        // Validar si los campos están vacíos
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Por favor, ingresa un correo y una contraseña")),
+        );
+        return;
+      }
+
+      // Registrar al usuario con Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      // Si el registro es exitoso, redirige al HomePage
+      if (userCredential.user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Usuario registrado exitosamente")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
+    } catch (e) {
+      print(e); // En caso de error, muestra el mensaje de error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error al registrar el usuario: $e")),
+      );
+    }
+  }
+  //Fin - Registro
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +101,11 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                             children: [
                               InkWell(onTap:(){
                                 context.pop(); //Regresar al pag anterior
-                                },child:Image.asset(
-                                  "lib/icons/icons/back.png",
-                                  width:55, 
-                                  height:55,
+                                  },
+                                    child:Image.asset(
+                                      "lib/icons/icons/back.png",
+                                      width:55, 
+                                      height:55,
                                 ),
                               
                               ),
@@ -164,11 +217,11 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                       ),
 
                 const SizedBox(height:35),
-                RoundTextField(hintText:"Nombre de usuario"),
+                RoundTextField(controller: _usernameController, hintText:"Nombre de usuario"),
                 const SizedBox(height:35),
-                RoundTextField(hintText:"Correo electronico"),
+                RoundTextField(controller: _emailController,hintText:"Correo electronico"),
                 const SizedBox(height:20),
-                RoundTextField(hintText:"Contraseña",obscureText: true,),
+                RoundTextField(controller: _passwordController,hintText:"Contraseña",obscureText: true,),
                 const SizedBox(height:20),
 
                 //Row con texto de privacidad y checkbox
@@ -221,11 +274,8 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                 
                 RoundButton( //BTN de Common wodgets, recordar importar archivo round_button.dart
                   title:"Registrarme",
-                  onPressed:(){
-                    context.push(const HomePage ());
-                  }
-                ),
-
+                  onPressed: _registerUser, // Llamamos al método para registrar
+                    ),
                 const Spacer(),
               ],
           ),
