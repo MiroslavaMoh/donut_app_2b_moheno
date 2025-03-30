@@ -1,11 +1,20 @@
+//Utilidades
+import 'package:flutter/material.dart';
+import 'package:donut_app_2b_moheno/common/color_extension.dart';
+import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
+
+//Tabs
 import 'package:donut_app_2b_moheno/tabs/burger_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/donut_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/pancakes_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/pizza_tab.dart';
 import 'package:donut_app_2b_moheno/tabs/smoothie_tab.dart';
 import 'package:donut_app_2b_moheno/utils/my_tab.dart';
-import 'package:flutter/material.dart';
-import 'package:donut_app_2b_moheno/common/color_extension.dart';
+
+//Screens
+import 'package:donut_app_2b_moheno/pages/profile_page.dart';
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,16 +50,23 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length:5,
       child: Scaffold(
-        appBar: AppBar(
+
+          drawer: MyDrawer(), // Usa el widget del navigate drawer
+          
+          appBar: AppBar(
           backgroundColor: Colors.transparent,
-          leading: Icon(Icons.menu,
-          color: Colors.grey[800],
+
+          //BTN-menu
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.grey[800]),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
           ),
-          //Icono derecho
-          actions: [Padding(
-            padding: const EdgeInsets.only(right: 24.0),
-            child: Icon(Icons.person),
-          )],
+          //Fin BTN-menu
+              
         ),
 
         body: Column(
@@ -71,14 +87,15 @@ class _HomePageState extends State<HomePage> {
             TabBar(tabs:myTabs),
             //Tabbar view (contenido de pestañas)
             Expanded(
-              child: TabBarView(children: [
-                //DonutTab(addToCart: addToCart), // Pasamos la función a DonutTab
-                 DonutTab(addToCart: (name, price) => addToCart(name, price)),
-                  BurgerTab(addToCart: (name, price) => addToCart(name, price)),
-                  SmoothieTab(addToCart: (name, price) => addToCart(name, price)),
-                  PancakesTab(addToCart: (name, price) => addToCart(name, price)),
-                  PizzaTab(addToCart: (name, price) => addToCart(name, price)),
-              ]),
+                child: TabBarView(children: [
+                  //DonutTab(addToCart: addToCart), // Pasamos la función a DonutTab
+                  DonutTab(addToCart: (name, price) => addToCart(name, price)),
+                    BurgerTab(addToCart: (name, price) => addToCart(name, price)),
+                    SmoothieTab(addToCart: (name, price) => addToCart(name, price)),
+                    PancakesTab(addToCart: (name, price) => addToCart(name, price)),
+                    PizzaTab(addToCart: (name, price) => addToCart(name, price)),
+                ]
+              ),
             ),
             
             

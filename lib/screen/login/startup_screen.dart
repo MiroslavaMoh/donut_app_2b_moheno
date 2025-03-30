@@ -33,7 +33,7 @@ class  _StartUpScreenState extends State <StartUpScreen> {
           //Imagen decorativa principal
           Image.asset( //Imagen principal
             "lib/icons/icons/startup_image.png", 
-            //"assets\img\starup_top.png"
+            
             width: double.maxFinite, //Maximo de su contenedor padre
             fit: BoxFit.fitWidth, //Maximo de su contenedor padre
             ),

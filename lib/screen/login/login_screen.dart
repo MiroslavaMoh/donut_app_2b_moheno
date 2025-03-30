@@ -5,6 +5,7 @@ import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
 import 'package:donut_app_2b_moheno/screen/login/sign_up_screen.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
+import 'package:donut_app_2b_moheno/screen/login/forget_password_screen.dart';
 
 
 //Página de inicio
@@ -39,7 +40,7 @@ class  _LoginScreenState extends State <LoginScreen> {
                 children: [
                   Image.asset( //Imagen principal
                     "lib/icons/icons/burger-1.png",
-                    //meditationapp\assets\img\login_top.png
+                    
                     width: double.maxFinite, //Maximo de su contenedor padre
                     fit: BoxFit.fitWidth, //Maximo de su contenedor padre
                     ),
@@ -185,18 +186,20 @@ class  _LoginScreenState extends State <LoginScreen> {
                  
                     TextButton(
                     onPressed: () {
-                      
+                      context.push(const ForgetPasswordScreen());
                     },
                     child: Text(
                       "¿Olvidaste tu contraseña?",
                       style: TextStyle(
-                        color: TColor.primaryText,
+                        color: TColor.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                      
+                  
+
+                  
                       
 
                       const Spacer(),

@@ -36,7 +36,7 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                 children: [
                   Image.asset( //Imagen principal
                     "lib/icons/icons/login_top.png",
-                    //meditationapp\assets\img\login_top.png
+                    
                     width: double.maxFinite, //Maximo de su contenedor padre
                     fit: BoxFit.fitWidth, //Maximo de su contenedor padre
                     ),
