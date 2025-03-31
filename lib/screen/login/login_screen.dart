@@ -1,3 +1,5 @@
+import 'package:donut_app_2b_moheno/screen/login/verification_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
@@ -7,17 +9,88 @@ import 'package:donut_app_2b_moheno/screen/login/sign_up_screen.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/forget_password_screen.dart';
 
+//librerias de autentificacion
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:donut_app_2b_moheno/screen/login/login_screen.dart';
 
-//Página de inicio
 
+
+//Inicio -  sesión por correo y contraseña
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Donut App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const LoginScreen(),
+    );
+  }
+}
+//fin -sesion por correo y contraseña
+
+
+
+//Cuerpo de inicio de sesión
 class LoginScreen extends StatefulWidget {
   const LoginScreen ({super.key});
 
   @override
   State <LoginScreen> createState() =>  _LoginScreenState();
-}
 
-class  _LoginScreenState extends State <LoginScreen> {
+    }
+
+//Inicio-Inicio sesion correo
+    class  _LoginScreenState extends State <LoginScreen> {
+      final TextEditingController _emailController = TextEditingController();
+      final TextEditingController _passwordController = TextEditingController();
+       Future<void> _signInWithEmailPassword() async {
+          try {
+            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            );
+
+            // Comprobar si el correo está verificado
+            User? user = userCredential.user;
+            if (user != null && !user.emailVerified) {
+              // Si el correo no está verificado, enviamos el correo de verificación
+              await user.sendEmailVerification();
+
+              // Mostrar un mensaje que indica que se envió el correo de verificación
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  "Correo de verificación enviado. Por favor revisa tu bandeja de entrada.",
+                ),
+              ));
+
+              // Redirigir al usuario a una página que indique que debe verificar su correo
+              context.push(VerificationPage());
+            } else {
+              // Si el correo está verificado, redirigir al usuario a la página principal
+              context.push(const HomePage());
+            }
+          } on FirebaseAuthException catch (e) {
+            String errorMessage = "Error desconocido";
+            if (e.code == 'user-not-found') {
+              errorMessage = "Usuario no encontrado.";
+            } else if (e.code == 'wrong-password') {
+              errorMessage = "Contraseña incorrecta.";
+            }
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+          }
+        }
+//Final-Inicio sesion correo
+
+
 
   @override
   void initState() {
@@ -168,18 +241,24 @@ class  _LoginScreenState extends State <LoginScreen> {
                       ),
 
                 const SizedBox(height:35),
-                RoundTextField(hintText:"Correo electronico"),
+                RoundTextField(
+                  hintText: "Correo electrónico",
+                  controller: _emailController,
+                ),
+
                 const SizedBox(height:20),
-                RoundTextField(hintText:"Contraseña",obscureText: true,),
-                const SizedBox(height:20),
+
+                RoundTextField(
+                  hintText: "Contraseña",
+                  obscureText: true,
+                  controller: _passwordController,
+                ),
 
 
                 //BTN-Registrarme morado
                 RoundButton( //BTN de Common wodgets, recordar importar archivo round_button.dart
                   title:"Iniciar Sesión",
-                  onPressed:(){
-                   context.push(const HomePage());
-                  }
+                  onPressed: _signInWithEmailPassword,
                 ),
 
                 //Texto de Iniciar sesión, dos colores 2 elementos

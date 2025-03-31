@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
@@ -7,8 +8,41 @@ import 'package:donut_app_2b_moheno/pages/home_page.dart';
 
 //Librerias de firebase para autentificación
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart';
 
 //Página de inicio
+
+
+//Inicio - Registro facebook
+    class AuthService {
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+
+      Future<UserCredential?> signInWithFacebook() async {
+        try {
+          final LoginResult result = await FacebookAuth.instance.login();
+
+          if (result.accessToken != null) {
+              final AccessToken accessToken = result.accessToken!;
+              final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.tokenString);
+
+
+              return await _auth.signInWithCredential(credential);
+            } else {
+              print("Error: No se obtuvo el token de acceso de Facebook.");
+              return null;
+            }
+        } catch (e) {
+          print("Error durante la autenticación con Facebook: $e");
+          return null;
+        }
+      }
+    }
+
+
+//Fin - Registro facebook
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen ({super.key});
@@ -30,7 +64,7 @@ class  _SignUpScreenState extends State <SignUpScreen> {
 
 
 
-  //Inicio - Registro
+  //Inicio - Registro por correo electronico
 
    Future<void> _registerUser() async {
     try {
@@ -67,10 +101,69 @@ class  _SignUpScreenState extends State <SignUpScreen> {
       );
     }
   }
-  //Fin - Registro
+  //Fin - Registro por correo electronico
 
 
+  //Inicio - Registro por Google android
+ Future<UserCredential?> signInWithGoogle() async {
+  try {
+    // Configuración manual del Client ID (sólo si es necesario)
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId: '822034519769-122hsatfo97mhccrcfnbj0rg7dpo9h0n.apps.googleusercontent.com', // Copia tu Client ID desde Google Cloud
+    );
 
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return null;
+
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } catch (e) {
+    print("Error en Google Sign-In: $e");
+    return null;
+  }
+}
+  //Fin - Registro por Google android
+
+// Inicio - Google registro web
+// Para web, inicializar el GoogleSignIn con el paquete web
+// GoogleSignIn? _googleSignIn;
+
+// Future<UserCredential?> signInWithGoogle() async {
+//   try {
+//     // Verifica si está en la web
+//     if (kIsWeb) {
+//       // Si es web, se inicializa el GoogleSignIn Web
+//       _googleSignIn = GoogleSignIn(
+//         clientId: 'tu-client-id.apps.googleusercontent.com', // Usa el Client ID para web
+//       );
+//     } else {
+//       // Si no es web (Android/iOS), usa la configuración predeterminada
+//       _googleSignIn = GoogleSignIn();
+//     }
+
+//     final GoogleSignInAccount? googleUser = await _googleSignIn!.signIn();
+//     if (googleUser == null) return null;
+
+//     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+//     final OAuthCredential credential = GoogleAuthProvider.credential(
+//       accessToken: googleAuth.accessToken,
+//       idToken: googleAuth.idToken,
+//     );
+
+//     return await FirebaseAuth.instance.signInWithCredential(credential);
+//   } catch (e) {
+//     print("Error en Google Sign-In: $e");
+//     return null;
+//   }
+// }
+//Fin -Google registro web
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +221,24 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                           Padding(
                             padding:const EdgeInsets.symmetric(horizontal:20),
                               child: MaterialButton(
-                                onPressed: (){},
+                                //Inicio - Llamada a funcion
+                                  onPressed: () async {
+                                      final authService = AuthService();
+                                      UserCredential? userCredential = await authService.signInWithFacebook();
+
+                                      if (userCredential != null) {
+                                          print("Inicio de sesión con Facebook exitoso: ${userCredential.user?.email}");
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                        } else {
+                                          print("Error en el inicio de sesión con Facebook");
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text("Error al iniciar sesión con Facebook")),
+                                          );
+                                      }
+                                    },
+                                    
+
+                                //Fin - Llamada a funcion
                                 minWidth: double.maxFinite,
                                 elevation: 0,
                                 color: const Color(0xfffe6dcb),
@@ -168,7 +278,26 @@ class  _SignUpScreenState extends State <SignUpScreen> {
                           Padding(
                             padding:const EdgeInsets.symmetric(horizontal:20),
                               child: MaterialButton(
-                                onPressed: (){},
+                                
+                                //Inicio -Llamar funcion para registrar cuenta en google
+                                    onPressed: () async {
+                                        UserCredential? userCredential = await signInWithGoogle();
+                                        if (userCredential != null) {
+                                          // Navega a la pantalla principal si la autenticación fue exitosa
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const HomePage()),
+                                          );
+                                        } else {
+                                          // Muestra un mensaje de error si falló
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text("Error al iniciar sesión con Google")),
+                                          );
+                                        }
+                                    },
+
+                                //fin- Funciones para registrar cuenta en google
+
                                 minWidth: double.maxFinite,
                                 elevation: 0,
                                 color: Colors.white,

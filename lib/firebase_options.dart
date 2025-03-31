@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '822034519769',
     projectId: 'marzo-miros-2b',
     storageBucket: 'marzo-miros-2b.firebasestorage.app',
+    iosClientId: '822034519769-d9tm7ibqj0eod2i14lfvghvk5bu885st.apps.googleusercontent.com',
     iosBundleId: 'com.example.donutApp2bMoheno',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '822034519769',
     projectId: 'marzo-miros-2b',
     storageBucket: 'marzo-miros-2b.firebasestorage.app',
+    iosClientId: '822034519769-d9tm7ibqj0eod2i14lfvghvk5bu885st.apps.googleusercontent.com',
     iosBundleId: 'com.example.donutApp2bMoheno',
   );
 
@@ -85,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'marzo-miros-2b.firebasestorage.app',
     measurementId: 'G-TS8HXYDBHY',
   );
+
 }

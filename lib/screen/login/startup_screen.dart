@@ -1,3 +1,5 @@
+import 'package:donut_app_2b_moheno/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
@@ -23,6 +25,26 @@ class  _StartUpScreenState extends State <StartUpScreen> {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   }
+
+  //Inicio- Comprobar inicio de sesion
+  Future<void> checkEmailVerificationStatus() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    await user.reload();
+    if (user.emailVerified) {
+      // El correo ha sido verificado, puedes continuar
+      context.push(const HomePage());
+    } else {
+      // El correo no está verificado, mantén al usuario en la pantalla de verificación
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Por favor, verifica tu correo electrónico."),
+      ));
+    }
+  }
+}
+
+  //Fin-Comprobar inicio de sesion
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
