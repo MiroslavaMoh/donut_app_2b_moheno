@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
+import 'package:donut_app_2b_moheno/screen/login/update_password_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -134,7 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ),
                                             ),
                                             InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                                                context.push(const UpdatePasswordScreen());
+                                              },
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                     color: TColor.primaryText,

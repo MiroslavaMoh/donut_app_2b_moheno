@@ -5,37 +5,55 @@ import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
 
-class ForgetPasswordScreen extends StatefulWidget {
-  const ForgetPasswordScreen({super.key});
+class UpdatePasswordScreen extends StatefulWidget {
+  const UpdatePasswordScreen({super.key});
 
   @override
-  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+  State<UpdatePasswordScreen> createState() => _UpdatePasswordScreenState();
 }
 
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
-  // Función para enviar correo de recuperación
-  Future<void> _sendPasswordResetEmail() async {
-    String email = _emailController.text.trim();
+  // Función para cambiar la contraseña
+  Future<void> _updatePassword() async {
+    String newPassword = _newPasswordController.text.trim();
+    String confirmPassword = _confirmPasswordController.text.trim();
 
-    if (email.isEmpty) {
+    // Validar que las contraseñas coincidan
+    if (newPassword.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Por favor ingresa un correo electrónico."),
+        content: Text("Las contraseñas no pueden estar vacías."),
       ));
       return;
     }
 
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    if (newPassword != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Correo de recuperación enviado a $email"),
+        content: Text("Las contraseñas no coinciden."),
       ));
-      // Redirigir a la página de login o cualquier otra pantalla
-      context.push(const HomePage());
+      return;
+    }
+
+    // Intentar actualizar la contraseña
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updatePassword(newPassword);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Contraseña actualizada correctamente."),
+        ));
+        // Redirigir al HomePage después de cambiar la contraseña
+        context.push(const HomePage());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Usuario no encontrado. Intenta nuevamente."),
+        ));
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Error: $e"),
+        content: Text("Error al cambiar la contraseña: $e"),
       ));
     }
   }
@@ -77,7 +95,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         ),
                       ),
                       Text(
-                        "¿Olvidaste tu contraseña?",
+                        "Actualizar contraseña",
                         style: TextStyle(
                           color: TColor.primaryText,
                           fontSize: 28,
@@ -91,7 +109,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
               const SizedBox(height: 35),
               Text(
-                "Ingresa tu correo electrónico para recuperar la contraseña",
+                "Ingresa tu nueva contraseña",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: TColor.secondaryText,
@@ -101,13 +119,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
               const SizedBox(height: 35),
               RoundTextField(
-                hintText: "Correo electrónico",
-                controller: _emailController,
+                hintText: "Nueva contraseña",
+                controller: _newPasswordController,
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              RoundTextField(
+                hintText: "Confirmar contraseña",
+                controller: _confirmPasswordController,
+                obscureText: true,
               ),
               const SizedBox(height: 20),
               RoundButton(
-                title: "Enviar correo de recuperación",
-                onPressed: _sendPasswordResetEmail,
+                title: "Actualizar contraseña",
+                onPressed: _updatePassword,
               ),
               const Spacer(),
             ],
