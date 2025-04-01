@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "822034519769-ue0smdn7u2f77hlcr27boqv97eqjsp8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.donut_app_2b_moheno",
+            "certificate_hash": "6c8ccee88ab01588f7ee724d4ff760c70f54b10b"
+          }
+        },
+        {
           "client_id": "822034519769-122hsatfo97mhccrcfnbj0rg7dpo9h0n.apps.googleusercontent.com",
           "client_type": 3
         }

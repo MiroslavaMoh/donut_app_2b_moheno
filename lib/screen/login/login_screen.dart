@@ -1,18 +1,21 @@
-import 'package:donut_app_2b_moheno/screen/login/verification_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//utilidades
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
+
+//Páginas
 import 'package:donut_app_2b_moheno/screen/login/sign_up_screen.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/forget_password_screen.dart';
 
 //librerias de autentificacion
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/screen/login/login_screen.dart';
+import 'package:donut_app_2b_moheno/service/auth_service.dart';
+import 'package:donut_app_2b_moheno/screen/login/verification_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
@@ -192,7 +195,15 @@ class LoginScreen extends StatefulWidget {
                           Padding(
                             padding:const EdgeInsets.symmetric(horizontal:20),
                               child: MaterialButton(
-                                onPressed: (){},
+                                onPressed: () async {
+                                  final credenciales = await AuthServices().signInWithGoogle();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const HomePage()),
+                                  );
+
+                                },
                                 minWidth: double.maxFinite,
                                 elevation: 0,
                                 color: Colors.white,
