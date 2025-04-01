@@ -65,42 +65,42 @@ class  _SignUpScreenState extends State <SignUpScreen> {
 
 
   //Inicio - Registro por correo electronico
+  Future<void> _registerUser() async {
+  try {
+    String name = _usernameController.text;  // Asegúrate de tener este campo en la UI
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-   Future<void> _registerUser() async {
-    try {
-      // Obtiene los valores de los campos
-      String email = _emailController.text;
-      String password = _passwordController.text;
-
-      if (email.isEmpty || password.isEmpty) {
-        // Validar si los campos están vacíos
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Por favor, ingresa un correo y una contraseña")),
-        );
-        return;
-      }
-
-      // Registrar al usuario con Firebase Auth
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      // Si el registro es exitoso, redirige al HomePage
-      if (userCredential.user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Usuario registrado exitosamente")),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      }
-    } catch (e) {
-      print(e); // En caso de error, muestra el mensaje de error
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error al registrar el usuario: $e")),
+        SnackBar(content: Text("Por favor, ingresa todos los campos")),
       );
+      return;
     }
+
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+
+    await userCredential.user?.updateDisplayName(name);
+    await userCredential.user?.reload(); // Asegura que el cambio se refleje
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Usuario registrado exitosamente")),
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error al registrar el usuario: $e")),
+    );
   }
+}
+
+
   //Fin - Registro por correo electronico
 
 

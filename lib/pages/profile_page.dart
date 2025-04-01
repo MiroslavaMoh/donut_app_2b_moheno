@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
@@ -12,35 +12,42 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  User? _user; // Variable para almacenar el usuario autenticado
+  User? user = FirebaseAuth.instance.currentUser;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); // Cargar datos del usuario al iniciar la pantalla
+  }
+
+  void _loadUserData() {
+    setState(() {
+      _user = FirebaseAuth.instance.currentUser;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        //BTN-menu
-        drawer: MyDrawer(), // Usa el widget del navigate drawer no olvidar importar
-          appBar: AppBar(
-          backgroundColor: Colors.transparent,
-
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: Colors.grey[800]),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
+      drawer: MyDrawer(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu, color: Colors.grey[800]),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
           ),
-          //Fin BTN-menu
-              
         ),
-
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
@@ -48,231 +55,178 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Image.asset(
                       "lib/icons/icons/user.png",
+                      
                       width: 100,
                       height: 100,
                     ),
-                    Text( 
+                    Text(
                       "Tu perfil",
                       style: TextStyle(
                         color: TColor.primaryText,
-                        fontSize: 28, 
+                        fontSize: 28,
                         fontWeight: FontWeight.w700,
-                      ), 
+                      ),
                     ),
-                    const SizedBox(
-                      height: 8, 
-                    ),
+                    const SizedBox(height: 8),
                     Text(
-                      "Miroslava Moheno",
+                      _user?.displayName ?? "Usuario sin nombre",
                       style: TextStyle(
                         color: TColor.secondaryText,
                         fontSize: 18,
                       ),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 25),
+
+                    // Tarjeta de Correo Electrónico
                     Row(
-                      //Primera tarjeta - morada
                       children: [
                         Expanded(
-                            child: InkWell( //Para hacer tap, se requiere material
-                          onTap: () {
-                            //context.push(const CourseDetailScreen());
-                          },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Color(0xffd7d5d5),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                color: Color(0xffd7d5d5),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Correo",
+                                      style: TextStyle(
+                                        color: TColor.primaryText,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      _user?.email ?? "No registrado",
+                                      style: TextStyle(
+                                        color: TColor.primaryText,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Correo",
-                                          style: TextStyle(
-                                            color: TColor.primaryText,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          "miroslavamoh252***",
+                                          _user?.emailVerified == true ? "Verificado" : "No verificado",
                                           style: TextStyle(
                                             color: TColor.primaryText,
                                             fontSize: 11,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Activo",
+                                        InkWell(
+                                          onTap: () {
+                                            context.push(const UpdatePasswordScreen());
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: TColor.primaryText,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                                            child: Text(
+                                              "Editar",
                                               style: TextStyle(
-                                                color: TColor.primaryText,
-                                                fontSize: 11,
+                                                color: TColor.tertiary,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                context.push(const UpdatePasswordScreen());
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: TColor.primaryText,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 15),
-                                                child: Text(
-                                                  "Editar",
-                                                  style: TextStyle(
-                                                    color: TColor.tertiary,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        )),
-
-                        //Espaciado entre tarjetas
-                        const SizedBox(
-                          width: 20,
                         ),
 
-                        //Segunda tarjeta - amarilla
+                        // Espaciado
+                        const SizedBox(width: 20),
+
+                        // Tarjeta de Teléfono
                         Expanded(
-                            child: InkWell(
-                          onTap: () {
-                            //context.push(const CourseDetailScreen());
-                          },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Color(0xffd7d5d5),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                color: Color(0xffd7d5d5),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Teléfono",
+                                      style: TextStyle(
+                                        color: TColor.primaryText,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      _user?.phoneNumber ?? "No registrado",
+                                      style: TextStyle(
+                                        color: TColor.primaryText,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Teléfono",
-                                          style: TextStyle(
-                                            color: TColor.primaryText,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          "9381025***",
+                                          _user?.phoneNumber != null ? "Confirmado" : "Sin confirmar",
                                           style: TextStyle(
                                             color: TColor.primaryText,
                                             fontSize: 11,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Sin confirmar",
+                                        InkWell(
+                                          onTap: () {
+                                            // Implementar lógica para editar número de teléfono
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: TColor.primaryText,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                                            child: Text(
+                                              "Editar",
                                               style: TextStyle(
-                                                color: TColor.primaryText,
-                                                fontSize: 11,
+                                                color: TColor.tertiary,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: TColor.primaryText,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 15),
-                                                child: Text(
-                                                  "Editar",
-                                                  style: TextStyle(
-                                                    color: TColor.tertiary,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        )
-                        )
+                        ),
                       ],
                     ),
 
+                    const SizedBox(height: 20),
 
-                    const SizedBox(height: 20,),
-
-                    //Fila
+                    // Newsletter
                     Container(
                       width: double.maxFinite,
                       decoration: BoxDecoration(
@@ -288,54 +242,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fit: BoxFit.fitWidth,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            child: Row(
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Subcribete a nuestro newsletter",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        "Obten noticias de la app",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  "Subscríbete a nuestro newsletter",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Obtén noticias de la app",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                  ),
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-
-                    //Nueva sección deslizable con fichas hechas a partir de la lista de aribba
-                    
+                    const SizedBox(height: 35),
                   ],
                 ),
               ),
-              
             ],
           ),
         ),
