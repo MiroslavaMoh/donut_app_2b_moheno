@@ -11,8 +11,7 @@ import 'package:donut_app_2b_moheno/screen/login/forget_password_screen.dart';
 
 //librerias de autentificacion
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:donut_app_2b_moheno/screen/login/login_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 
@@ -25,6 +24,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   @override
+
+  
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Donut App',
@@ -38,7 +39,6 @@ class MyApp extends StatelessWidget {
 //fin -sesion por correo y contraseña
 
 
-
 //Cuerpo de inicio de sesión
 class LoginScreen extends StatefulWidget {
   const LoginScreen ({super.key});
@@ -48,10 +48,14 @@ class LoginScreen extends StatefulWidget {
 
     }
 
+
 //Inicio-Inicio sesion correo
     class  _LoginScreenState extends State <LoginScreen> {
       final TextEditingController _emailController = TextEditingController();
       final TextEditingController _passwordController = TextEditingController();
+      bool _obscureNewPassword = true;
+
+
        Future<void> _signInWithEmailPassword() async {
           try {
             UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -90,7 +94,39 @@ class LoginScreen extends StatefulWidget {
         }
 //Final-Inicio sesion correo
 
+    //Inicio- sesión por google
+    Future<void> _signInWithGoogle() async {
+      try {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          return; // El usuario canceló la selección de cuenta
+        }
 
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        final OAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        // Verificar si es un nuevo usuario
+        if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+          // Puedes redirigir a completar perfil
+          print("Nuevo usuario: Redirigir a completar perfil");
+        }
+
+        // Redirigir a la página principal
+        context.push(const HomePage());
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al iniciar sesión con Google: $e")),
+        );
+      }
+    }
+    //fin- sesión por google
 
   @override
   void initState() {
@@ -112,7 +148,7 @@ class LoginScreen extends StatefulWidget {
                 alignment: Alignment.bottomCenter,
                 children: [
                   Image.asset( //Imagen principal
-                    "lib/icons/icons/burger-1.png",
+                    "lib/icons/icons/login_top.png",
                     
                     width: double.maxFinite, //Maximo de su contenedor padre
                     fit: BoxFit.fitWidth, //Maximo de su contenedor padre
@@ -131,13 +167,14 @@ class LoginScreen extends StatefulWidget {
                                   width:55, 
                                   height:55,
                                 ),
-                              
                               ),
                             ],
                           ),
                         ),
 
-                        const SizedBox(height:25,),
+                        const SizedBox(height:125,),
+                        //const Spacer(), //Solo en column y row stack no 
+                        //const Spacer(flex: 1), //Solo en column y row stack no 
 
                         Text("Bienvenido de regreso",
                           style: TextStyle( 
@@ -146,7 +183,7 @@ class LoginScreen extends StatefulWidget {
                             fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height:25,),
+                          const SizedBox(height:25),
 
                           //Btn-Facebook
                           Padding(
@@ -192,7 +229,7 @@ class LoginScreen extends StatefulWidget {
                           Padding(
                             padding:const EdgeInsets.symmetric(horizontal:20),
                               child: MaterialButton(
-                                onPressed: (){},
+                                onPressed: _signInWithGoogle, // Llamamos al método de autenticación
                                 minWidth: double.maxFinite,
                                 elevation: 0,
                                 color: Colors.white,
@@ -248,11 +285,31 @@ class LoginScreen extends StatefulWidget {
 
                 const SizedBox(height:20),
 
-                RoundTextField(
-                  hintText: "Contraseña",
-                  obscureText: true,
-                  controller: _passwordController,
-                ),
+                 RoundTextField(
+                   hintText: "Contraseña",
+                   obscureText: true,
+                   controller: _passwordController,
+                 ),
+                 const SizedBox(width: 20), 
+
+                //  TextField(
+                //   controller: _passwordController,
+                //   obscureText: _obscureNewPassword,
+                //   decoration: InputDecoration(
+                //     labelText: "Nueva contraseña",
+                //     suffixIcon: IconButton(
+                //       icon: Icon(
+                //         _obscureNewPassword ? Icons.visibility_off : Icons.visibility,
+                //       ),
+                //       onPressed: () {
+                //         setState(() {
+                //           _obscureNewPassword = !_obscureNewPassword;
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
+              
 
 
                 //BTN-Registrarme morado
@@ -281,7 +338,8 @@ class LoginScreen extends StatefulWidget {
                   
                       
 
-                      const Spacer(),
+                      //const Spacer(),
+                      const SizedBox(width: 20,),
                           
 
                       Row(
@@ -295,6 +353,7 @@ class LoginScreen extends StatefulWidget {
                             fontWeight: FontWeight.w600,
                             ),
                           ),
+                          const SizedBox(width: 20,),
 
                           //Conectar el boton para que te envie a login_screen
                           TextButton(onPressed: (){
@@ -302,6 +361,7 @@ class LoginScreen extends StatefulWidget {
                           },
 
                           //const Spacer(),
+                          //const SizedBox(width: 40,),
 
                           child: Text(
                             "Registrate",

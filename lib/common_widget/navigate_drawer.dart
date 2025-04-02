@@ -1,3 +1,4 @@
+import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 
@@ -51,6 +52,13 @@ class MyDrawer extends StatelessWidget {
             title: Text("Configuraciones"),
             onTap: () {
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.menu, color: TColor.secondary),
+            title: Text("Inicio sin salir sesión"),
+            onTap: () {
+              context.push(const StartUpScreen());
             },
           ),
           Expanded(child: Container()),

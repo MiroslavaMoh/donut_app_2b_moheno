@@ -11,7 +11,7 @@ class RoundTextField extends StatelessWidget {
   final bool? obscureText;
   final Widget? right;
 
-  const RoundTextField({super.key, required this.hintText, this.controller, this.keyboardType, this.obscureText, this.right});
+  const RoundTextField({super.key, required this.hintText, this.controller, this.keyboardType, this.obscureText, this.right,});
 
   @override
   Widget build(BuildContext context) {

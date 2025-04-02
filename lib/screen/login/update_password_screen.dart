@@ -15,6 +15,8 @@ class UpdatePasswordScreen extends StatefulWidget {
 class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _obscureNewPassword = true;
+  bool _obscureConfirmPassword = true;
 
   // Función para cambiar la contraseña
   Future<void> _updatePassword() async {
@@ -45,7 +47,10 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
           content: Text("Contraseña actualizada correctamente."),
         ));
         // Redirigir al HomePage después de cambiar la contraseña
-        context.push(const HomePage());
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Usuario no encontrado. Intenta nuevamente."),
@@ -63,7 +68,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: context.height,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -78,12 +83,12 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                   Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Row(
                           children: [
                             InkWell(
                               onTap: () {
-                                context.pop();
+                                Navigator.pop(context);
                               },
                               child: Image.asset(
                                 "lib/icons/icons/back.png",
@@ -94,6 +99,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 150),
+                    
                       Text(
                         "Actualizar contraseña",
                         style: TextStyle(
@@ -118,16 +125,46 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                 ),
               ),
               const SizedBox(height: 35),
-              RoundTextField(
-                hintText: "Nueva contraseña",
-                controller: _newPasswordController,
-                obscureText: true,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _newPasswordController,
+                  obscureText: _obscureNewPassword,
+                  decoration: InputDecoration(
+                    labelText: "Nueva contraseña",
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureNewPassword ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureNewPassword = !_obscureNewPassword;
+                        });
+                      },
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
-              RoundTextField(
-                hintText: "Confirmar contraseña",
-                controller: _confirmPasswordController,
-                obscureText: true,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: _obscureConfirmPassword,
+                  decoration: InputDecoration(
+                    labelText: "Confirmar contraseña",
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
               RoundButton(

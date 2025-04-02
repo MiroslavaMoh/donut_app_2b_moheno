@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
+import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
@@ -10,7 +11,7 @@ import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in_web/google_sign_in_web.dart';
+//import 'package:google_sign_in_web/google_sign_in_web.dart';
 
 //Página de inicio
 
@@ -64,8 +65,8 @@ class  _SignUpScreenState extends State <SignUpScreen> {
 
 
 
-  //Inicio - Registro por correo electronico
-  Future<void> _registerUser() async {
+  //Inicio - Registro por correo electrónico
+Future<void> _registerUser() async {
   try {
     String name = _usernameController.text;  // Asegúrate de tener este campo en la UI
     String email = _emailController.text;
@@ -84,13 +85,16 @@ class  _SignUpScreenState extends State <SignUpScreen> {
     await userCredential.user?.updateDisplayName(name);
     await userCredential.user?.reload(); // Asegura que el cambio se refleje
 
+    // Enviar correo de verificación
+    await userCredential.user?.sendEmailVerification();
+
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Usuario registrado exitosamente")),
+      SnackBar(content: Text("Usuario registrado exitosamente. Se ha enviado un correo de verificación.")),
     );
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const StartUpScreen()),
     );
   } catch (e) {
     print(e);
@@ -99,9 +103,7 @@ class  _SignUpScreenState extends State <SignUpScreen> {
     );
   }
 }
-
-
-  //Fin - Registro por correo electronico
+//fin - Registro por correo electrónico
 
 
   //Inicio - Registro por Google android

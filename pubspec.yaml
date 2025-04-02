@@ -36,12 +36,14 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   #Firebase depedencies
-  firebase_core: 3.12.1
-  firebase_auth: 5.5.1  # Para la autenticación
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.2  # Para la autenticación
   google_sign_in: 6.3.0  # Para Google Sign-In
   flutter_facebook_auth: 7.1.1  # Para Facebook Sign-In
   firebase_ui_auth: 1.16.1 # Para la interfaz de autenticación
   google_sign_in_web: 0.12.4+4
+  desktop_webview_auth: 0.0.15
+  web: 1.1.1
 
 dev_dependencies:
   flutter_test:

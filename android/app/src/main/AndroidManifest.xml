@@ -31,14 +31,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- AUTENTIFICACION FACEBOOK-->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token"/>
-
 
     </application>
     <!-- Required to query activities that can process text, see:
@@ -46,6 +38,20 @@
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+        <meta-data
+        android:name="com.facebook.sdk.ApplicationId"
+        android:value="657318620496580"/>
+        <!--android:value="@string/facebook_app_id"/>-->
+
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="2f7ca01b01f4e109d4bfd79d3da1e9a1"/>
+            <!--android:value="@string/facebook_client_token"/>-->
+
+        <meta-data
+            android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
+            android:value="822034519769-122hsatfo97mhccrcfnbj0rg7dpo9h0n.apps.googleusercontent.com" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
