@@ -17,29 +17,27 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 
 //Inicio - Registro facebook
-    class AuthService {
-      final FirebaseAuth _auth = FirebaseAuth.instance;
+class AuthService {
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
 
-      Future<UserCredential?> signInWithFacebook() async {
-        try {
-          final LoginResult result = await FacebookAuth.instance.login();
+ Future<UserCredential> signInWithFacebook() async {
+  // Create a new provider
+  FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
-          if (result.accessToken != null) {
-              final AccessToken accessToken = result.accessToken!;
-              final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.tokenString);
+  facebookProvider.addScope('email');
+  facebookProvider.setCustomParameters({
+    'display': 'popup',
+  });
 
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithPopup(facebookProvider);
 
-              return await _auth.signInWithCredential(credential);
-            } else {
-              print("Error: No se obtuvo el token de acceso de Facebook.");
-              return null;
-            }
-        } catch (e) {
-          print("Error durante la autenticación con Facebook: $e");
-          return null;
-        }
-      }
-    }
+  // Or use signInWithRedirect
+  // return await FirebaseAuth.instance.signInWithRedirect(facebookProvider);
+}
+  
+}
+
 
 
 //Fin - Registro facebook
@@ -229,15 +227,17 @@ Future<void> _registerUser() async {
                                       UserCredential? userCredential = await authService.signInWithFacebook();
 
                                       if (userCredential != null) {
-                                          print("Inicio de sesión con Facebook exitoso: ${userCredential.user?.email}");
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-                                        } else {
-                                          print("Error en el inicio de sesión con Facebook");
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(content: Text("Error al iniciar sesión con Facebook")),
-                                          );
+                                        print("Inicio de sesión con Facebook exitoso: ${userCredential.user?.email}");
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                      } else {
+                                        print("Error en el inicio de sesión con Facebook");
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text("Error al iniciar sesión con Facebook")),
+                                        );
                                       }
                                     },
+
+                                
                                     
 
                                 //Fin - Llamada a funcion

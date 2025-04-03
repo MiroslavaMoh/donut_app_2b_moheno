@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Donut App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: const LoginScreen(),
     );
@@ -93,6 +93,35 @@ class LoginScreen extends StatefulWidget {
           }
         }
 //Final-Inicio sesion correo
+
+// Inicio - sesión por Facebook
+  Future<void> _signInWithFacebook() async {
+    try {
+      // Crear el proveedor de autenticación de Facebook
+      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+
+      // Añadir los permisos de Facebook (como el email)
+      facebookProvider.addScope('email');
+      facebookProvider.setCustomParameters({'display': 'popup'});
+
+      // Realizar el inicio de sesión con popup (Web)
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithPopup(facebookProvider);
+
+      // Verificar si el usuario es nuevo
+      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+        print("Nuevo usuario: Redirigir a completar perfil");
+      }
+
+      // Redirigir a la página principal
+      context.push(const HomePage());
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error al iniciar sesión con Facebook: $e")),
+      );
+    }
+  }
+  // Fin - sesión por Facebook
 
     //Inicio- sesión por google
     Future<void> _signInWithGoogle() async {
@@ -189,7 +218,7 @@ class LoginScreen extends StatefulWidget {
                           Padding(
                             padding:const EdgeInsets.symmetric(horizontal:20),
                               child: MaterialButton(
-                                onPressed: (){},
+                                onPressed: _signInWithFacebook, // Llamamos al login de Facebook
                                 minWidth: double.maxFinite,
                                 elevation: 0,
                                 color: const Color(0xfffe6dcb),
