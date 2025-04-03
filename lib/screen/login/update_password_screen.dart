@@ -99,7 +99,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 150),
+                      const SizedBox(height: 50),
                     
                       Text(
                         "Actualizar contraseña",

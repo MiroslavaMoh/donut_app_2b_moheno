@@ -319,7 +319,8 @@ class LoginScreen extends StatefulWidget {
                    obscureText: true,
                    controller: _passwordController,
                  ),
-                 const SizedBox(width: 20), 
+                 //const SizedBox(width: 20), 
+                 const Spacer(),
 
                 //  TextField(
                 //   controller: _passwordController,

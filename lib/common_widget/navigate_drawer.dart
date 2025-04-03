@@ -1,10 +1,13 @@
-import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 
 //Screens
 import 'package:donut_app_2b_moheno/pages/profile_page.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
+import 'package:donut_app_2b_moheno/pages/settings_page.dart';
+import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
+import 'package:donut_app_2b_moheno/pages/cart_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -37,7 +40,7 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.shopping_cart, color: TColor.secondary),
             title: Text("Carrito"),
             onTap: () {
-              Navigator.pop(context);
+              context.push(const ShoppingCartPage());
             },
           ),
           ListTile(
@@ -51,15 +54,16 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.settings, color: TColor.secondary),
             title: Text("Configuraciones"),
             onTap: () {
-              Navigator.pop(context);
+              context.push(const SettingsPage());
             },
           ),
           ListTile(
-            leading: Icon(Icons.menu, color: TColor.secondary),
-            title: Text("Inicio sin salir sesión"),
+            leading: Icon(Icons.exit_to_app, color: TColor.secondary),
+            title: Text("Salir"),
             onTap: () {
               context.push(const StartUpScreen());
             },
+            
           ),
           Expanded(child: Container()),
           Padding(

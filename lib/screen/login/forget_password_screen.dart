@@ -104,7 +104,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 hintText: "Correo electrónico",
                 controller: _emailController,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 100),
+              //const Spacer(),
               RoundButton(
                 title: "Enviar correo de recuperación",
                 onPressed: _sendPasswordResetEmail,

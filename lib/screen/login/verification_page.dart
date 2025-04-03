@@ -22,7 +22,8 @@ class VerificationPage extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            //SizedBox(height: 20),
+            const Spacer(),
             ElevatedButton(
               onPressed: () async {
                 // Comprobar si el correo electrónico ha sido verificado
