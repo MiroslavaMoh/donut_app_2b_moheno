@@ -18,8 +18,6 @@ class DonutTab extends StatelessWidget {
     ["Strawberry","Dunkin donuts", "45", Colors.red,"lib/images/images/strawberry_donut.png"],
     ["Grape Ape","Soriana", "84", Colors.purple, "lib/images/images/grape_donut.png"],
     ["Choco","Costco", "95", Colors.brown,"lib/images/images/chocolate_donut.png"]
-                                    //lib\images\images\chocolate_donut.png
-    
   ];
 
   @override

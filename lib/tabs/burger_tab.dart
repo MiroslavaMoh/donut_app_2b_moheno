@@ -7,7 +7,7 @@ class BurgerTab extends StatelessWidget {
   BurgerTab({required this.addToCart});
    //const DonutTab({super.key});
 
-  //lista donas
+  //lista burger
   final List donutsOnSale = [
     ["Champiñones","Burger King", "136", Colors.yellow,"lib/images/images/burger-1.png"],
     ["Queso","McDonalds", "145", Colors.red,"lib/images/images/burger-2.png"],
@@ -17,8 +17,6 @@ class BurgerTab extends StatelessWidget {
     ["Queso","McDonalds", "145", Colors.red,"lib/images/images/burger-2.png"],
     ["Tocino","Wonder Burger", "184", Colors.purple, "lib/images/images/burger-3.png"],
     ["Hawaianna","Angry Angus", "195", Colors.brown,"lib/images/images/burger-4.png"],
-                                    //lib\images\images\chocolate_donut.png
-    
   ];
 
   @override

@@ -7,7 +7,7 @@ class SmoothieTab extends StatelessWidget {
   SmoothieTab({required this.addToCart});
 
   
-  //lista donas
+  //lista smoothie
   final List donutsOnSale = [
     ["Papaya","Dunkin donuts", "54", Colors.deepOrange,"lib/images/images/smoothie-p.png"],
     ["Platano","Krispy Kreme", "50", Colors.yellow,"lib/images/images/smoothie-fl.png"],

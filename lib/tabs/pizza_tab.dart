@@ -6,7 +6,7 @@ class PizzaTab extends StatelessWidget {
   final Function(String, double) addToCart; // Recibe la función desde HomePage
   PizzaTab({required this.addToCart});
   
-  //lista donas
+  //lista pizza
   final List donutsOnSale = [
     ["Peperoni","Little Ceasar", "36", Colors.red,"lib/images/images/pizza-p.png"],
     ["Queso","Domino's", "45", Colors.yellow,"lib/images/images/pizza-h.png"],
@@ -16,9 +16,6 @@ class PizzaTab extends StatelessWidget {
     ["Queso","Domino's", "45", Colors.yellow,"lib/images/images/pizza-h.png"],
     ["Pastor","Messinas", "84", Colors.lightGreen, "lib/images/images/pizza-t.png"],
     ["Vegetariana","Costco", "95", Colors.green,"lib/images/images/pizza-v.png"],
-
-                                    //lib\images\images\chocolate_donut.png
-    
   ];
 
   @override

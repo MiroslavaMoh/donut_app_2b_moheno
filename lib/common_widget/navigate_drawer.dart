@@ -8,6 +8,7 @@ import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:donut_app_2b_moheno/pages/settings_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
 import 'package:donut_app_2b_moheno/pages/cart_page.dart';
+import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -41,6 +42,13 @@ class MyDrawer extends StatelessWidget {
             title: Text("Carrito"),
             onTap: () {
               context.push(const ShoppingCartPage());
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.store, color: TColor.secondary),
+            title: Text("Supermercado"),
+            onTap: () {
+              context.push(const SuperMarketPage());
             },
           ),
           ListTile(

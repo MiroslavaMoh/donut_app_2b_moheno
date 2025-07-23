@@ -6,7 +6,7 @@ class PancakesTab extends StatelessWidget {
   final Function(String, double) addToCart; // Recibe la función desde HomePage
   PancakesTab({required this.addToCart});
   
-  //lista donas
+  //lista pancakes
    final List donutsOnSale = [
     ["Moras","Krispy Kreme", "36", Colors.deepPurple,"lib/images/images/pancakes-1.png"],
     ["Fresas","Dunkin donuts", "45", Colors.pink,"lib/images/images/pancakes-2.png"],
@@ -16,9 +16,6 @@ class PancakesTab extends StatelessWidget {
     ["Fresas","Dunkin donuts", "45", Colors.pink,"lib/images/images/pancakes-2.png"],
     ["Chocolates","Soriana", "84", Colors.brown, "lib/images/images/pancakes-3.png"],
     ["Miel","Costco", "95", Colors.yellow,"lib/images/images/pancakes-1.png"],
-
-                                    //lib\images\images\chocolate_donut.png
-    
   ];
 
   @override

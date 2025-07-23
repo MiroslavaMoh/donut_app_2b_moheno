@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+
+//Utilidades
+import 'package:flutter/material.dart';
+import 'package:donut_app_2b_moheno/common/color_extension.dart';
+import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
+
+//models
+import 'package:donut_app_2b_moheno/models/product.dart';
+
+//services
+import 'package:donut_app_2b_moheno/services/product_service.dart';
+
+class Supermarket extends StatefulWidget {
+  const Supermarket({super.key});
+
+  @override
+  State<Supermarket> createState() => _SupermarketState();
+}
+
+class _SupermarketState extends State<Supermarket> {
+
+  //Preparar variables que resibiran la base de datos
+  List<Product> products = []; //Inicializar lista de productos
+  bool isLoading = true; //Carga de productos constante activada
+  int? selectedCategoryId; //selccionar categoria atlvez sea un int
+
+@override
+  void initState() {
+    super.initState();
+    loadProducts();
+  }
+  
+  Future<void> loadProducts ({int? CategoryId}) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final fetchedProducts = CategoryId == null
+      ? await ProductService.getAllProducts()
+      : await ProductService.getProductsByCategory(CategoryId);
+      setState(() {
+        products = fetchedProducts;
+      });
+    }
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 5, 
+      child: Scaffold(
+        drawer: MyDrawer(), // Usa el widget del navigate drawer
+          
+          appBar: AppBar(
+          backgroundColor: Colors.transparent,
+
+          //BTN-menu
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.grey[800]),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),    
+        ),
+        //Fin BTN-menu  
+      )
+      );
+  }
+}
