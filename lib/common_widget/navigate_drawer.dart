@@ -1,4 +1,5 @@
 
+import 'package:donut_app_2b_moheno/utils/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 
@@ -7,7 +8,7 @@ import 'package:donut_app_2b_moheno/pages/profile_page.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:donut_app_2b_moheno/pages/settings_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
-import 'package:donut_app_2b_moheno/pages/cart_page.dart';
+import 'package:donut_app_2b_moheno/utils/cart_page.dart';
 import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -41,7 +42,7 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.shopping_cart, color: TColor.secondary),
             title: Text("Carrito"),
             onTap: () {
-              context.push(const ShoppingCartPage());
+              context.push(CartPage(cartItems: [],));
             },
           ),
           ListTile(
