@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
 
 class ThankYouPage extends StatelessWidget {
@@ -16,10 +17,11 @@ class ThankYouPage extends StatelessWidget {
             children: [
 
               Image.asset( //Imagen principal
-                "lib/icons/icons/startup_image.png", 
+                "lib/icons/icons/donut_float.png", 
                 
-                width: double.maxFinite, 
-                fit: BoxFit.fitWidth, 
+                width: double.maxFinite,
+                height: 200 , 
+                fit: BoxFit.fitHeight, 
               ),
 
               SizedBox(height: 20),
@@ -30,23 +32,29 @@ class ThankYouPage extends StatelessWidget {
               ),
               SizedBox(height: 12),
               Text(
-                "Recibirás una confirmación pronto.",
+                "En breve sera alimentado <3",
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 40),
-              ElevatedButton.icon(
+              
+              SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const SuperMarketPage()),
                   );
                 },
-                label: Text("Volver al inicio"),
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  backgroundColor: TColor.primary,
+                  padding: EdgeInsets.symmetric(vertical: 15),
                 ),
+                child: Text("Volver al inicio", style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
+            )
+
             ],
           ),
         ),

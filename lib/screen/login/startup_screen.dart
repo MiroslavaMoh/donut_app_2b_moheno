@@ -46,86 +46,111 @@ class  _StartUpScreenState extends State <StartUpScreen> {
   //Fin-Comprobar inicio de sesion
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth > 600; // si es escritorio u horizontal
 
-          //Imagen decorativa principal
-          Image.asset( //Imagen principal
-            "lib/icons/icons/startup_image.png", 
-            
-            width: double.maxFinite, //Maximo de su contenedor padre
-            fit: BoxFit.fitWidth, //Maximo de su contenedor padre
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
             ),
-            const Spacer(), //Todo espacio disponible entre elemento
-
-            Text("Somos lo que comemos",
-                  style: TextStyle( 
-                    color:TColor.primaryText,
-                    fontSize:30, 
-                    fontWeight: FontWeight.w700,
+            child: IntrinsicHeight(
+              child: isWide
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            "lib/icons/icons/startup_image.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Expanded(child: _buildStartUpContent(context)),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Image.asset(
+                          "lib/icons/icons/startup_image.png",
+                          width: double.infinity,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        Expanded(child: _buildStartUpContent(context)),
+                      ],
                     ),
-                  ),
-
-            const SizedBox(height:15),
-
-            Text("Si es que deseas seguir existiendo, \ncomida deberas seguir ingiriendo",
-                  textAlign: TextAlign.center,
-                  style: TextStyle( 
-                    color:TColor.secondaryText,
-                    fontSize:16, 
-                    fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-            const Spacer(),
-
-            //BTN-Registrarme morado
-            RoundButton( //BTN de Common wodgets, recordar importar archivo round_button.dart
-              title:"Registrarme",
-              onPressed:(){
-                //context.push(const WelcomeScreen());
-                context.push(const SignUpScreen());
-              }
             ),
+          ),
+        );
+      },
+    ),
+  );
+}
 
-            //Texto de Iniciar sesión, dos colores 2 elementos
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("¿Ya tienes una cuenta?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle( 
-                    color:TColor.secondaryText,
-                    fontSize:14, 
-                    fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  //Conectar el boton para que te envie a login_screen
-                  TextButton(onPressed: (){
-                    context.push(const LoginScreen());
-                  },
-
-                  //const Spacer(),
-
-                  child: Text(
-                    "Iniciar sesión",
-                    style: TextStyle( 
-                    color:TColor.primary,
-                    fontSize:14, 
-                    fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  ),
-                ],
+Widget _buildStartUpContent(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(24.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 20),
+        Text(
+          "Somos lo que comemos",
+          style: TextStyle(
+            color: TColor.primaryText,
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 15),
+        Text(
+          "Si es que deseas seguir existiendo, \ncomida deberas seguir ingiriendo",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: TColor.secondaryText,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 40),
+        RoundButton(
+          title: "Registrarme",
+          onPressed: () {
+            context.push(const SignUpScreen());
+          },
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "¿Ya tienes una cuenta?",
+              style: TextStyle(
+                color: TColor.secondaryText,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
-            const Spacer(),
+            ),
+            TextButton(
+              onPressed: () {
+                context.push(const LoginScreen());
+              },
+              child: Text(
+                "Iniciar sesión",
+                style: TextStyle(
+                  color: TColor.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ],
-      )
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 }

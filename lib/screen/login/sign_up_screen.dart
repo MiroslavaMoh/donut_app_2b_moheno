@@ -6,6 +6,7 @@ import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
+import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
 
 //Librerias de firebase para autentificación
 import 'package:firebase_auth/firebase_auth.dart';
@@ -228,7 +229,7 @@ Future<void> _registerUser() async {
 
                                       if (userCredential != null) {
                                         print("Inicio de sesión con Facebook exitoso: ${userCredential.user?.email}");
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuperMarketPage()));
                                       } else {
                                         print("Error en el inicio de sesión con Facebook");
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -288,7 +289,7 @@ Future<void> _registerUser() async {
                                           // Navega a la pantalla principal si la autenticación fue exitosa
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) => const HomePage()),
+                                            MaterialPageRoute(builder: (context) => const SuperMarketPage()),
                                           );
                                         } else {
                                           // Muestra un mensaje de error si falló

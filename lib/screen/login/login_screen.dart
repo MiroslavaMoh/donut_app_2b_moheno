@@ -8,6 +8,7 @@ import 'package:donut_app_2b_moheno/common_widget/round_text_field.dart';
 import 'package:donut_app_2b_moheno/screen/login/sign_up_screen.dart';
 import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/forget_password_screen.dart';
+import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
 
 //librerias de autentificacion
 import 'package:firebase_core/firebase_core.dart';
@@ -80,7 +81,7 @@ class LoginScreen extends StatefulWidget {
               context.push(VerificationPage());
             } else {
               // Si el correo está verificado, redirigir al usuario a la página principal
-              context.push(const HomePage());
+              context.push(const SuperMarketPage());
             }
           } on FirebaseAuthException catch (e) {
             String errorMessage = "Error desconocido";
@@ -114,7 +115,7 @@ class LoginScreen extends StatefulWidget {
       }
 
       // Redirigir a la página principal
-      context.push(const HomePage());
+      context.push(const SuperMarketPage());
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error al iniciar sesión con Facebook: $e")),
@@ -148,7 +149,7 @@ class LoginScreen extends StatefulWidget {
         }
 
         // Redirigir a la página principal
-        context.push(const HomePage());
+        context.push(const SuperMarketPage());
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error al iniciar sesión con Google: $e")),

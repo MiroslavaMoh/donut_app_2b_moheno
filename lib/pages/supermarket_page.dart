@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
 import 'package:donut_app_2b_moheno/utils/cart_page.dart';
+import 'package:donut_app_2b_moheno/pages/product_detail_page.dart';
+
 
 // models
 import 'package:donut_app_2b_moheno/models/product.dart';
@@ -97,7 +99,8 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
                   product.image,
-                  fit: BoxFit.cover,
+                  //height: 200,
+                  fit: BoxFit.fitHeight,
                   width: double.infinity,
                   errorBuilder: (context, error, stackTrace) =>
                       const Icon(Icons.broken_image, size: 60),
@@ -133,25 +136,57 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
               color: Colors.grey,
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                CartService.addProduct(product);
-              });
-              /*ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("${product.name} agregado al carrito")),
-              );*/
-            },
-            child: Text(
-              "Add",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[800],
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
+
+
+           Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        CartService.addProduct(product);
+                      });
+                    },
+                    child: Text(
+                      "Add",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[800],
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+
+                  //BOTON DETAIL
+                  //const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProductDetailPage(product: product)),
+                        );
+                      },
+                      child: Text(
+                        "More",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+        
               ),
-            ),
-          ),
+
+
+
         ],
       ),
     );

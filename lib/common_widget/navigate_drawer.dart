@@ -10,6 +10,7 @@ import 'package:donut_app_2b_moheno/pages/settings_page.dart';
 import 'package:donut_app_2b_moheno/screen/login/startup_screen.dart';
 import 'package:donut_app_2b_moheno/utils/cart_page.dart';
 import 'package:donut_app_2b_moheno/pages/supermarket_page.dart';
+import 'package:donut_app_2b_moheno/pages/thankyou_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -31,11 +32,18 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
+          /*ListTile(
             leading: Icon(Icons.home, color: TColor.secondary),
             title: Text("Inicio"),
             onTap: () {
               context.push(const HomePage());
+            },
+          ),*/
+          ListTile(
+            leading: Icon(Icons.store, color: TColor.secondary),
+            title: Text("Supermercado"),
+            onTap: () {
+              context.push(const SuperMarketPage());
             },
           ),
           ListTile(
@@ -43,13 +51,6 @@ class MyDrawer extends StatelessWidget {
             title: Text("Carrito"),
             onTap: () {
               context.push(CartPage(cartItems: [],));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.store, color: TColor.secondary),
-            title: Text("Supermercado"),
-            onTap: () {
-              context.push(const SuperMarketPage());
             },
           ),
           ListTile(
@@ -74,6 +75,16 @@ class MyDrawer extends StatelessWidget {
             },
             
           ),
+
+          /*ListTile(
+            leading: Icon(Icons.favorite, color: TColor.secondary),
+            title: Text("Thank you"),
+            onTap: () {
+              context.push(const ThankYouPage());
+            },
+          ),*/
+
+
           Expanded(child: Container()),
           Padding(
             padding: const EdgeInsets.only(bottom: 30),

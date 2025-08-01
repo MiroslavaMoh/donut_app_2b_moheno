@@ -1,4 +1,5 @@
 // cart_page.dart
+import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -69,13 +70,16 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double total = CartService.total;
+@override
+Widget build(BuildContext context) {
+  double total = CartService.total;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Carrito de Compras")),
-      body: Column(
+  return Scaffold(
+    appBar: AppBar(title: const Text("Carrito de Compras")),
+
+    body: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -83,12 +87,13 @@ class _CartPageState extends State<CartPage> {
               itemBuilder: (context, index) {
                 var item = widget.cartItems[index];
                 return ListTile(
+                  leading: Image.asset(item['image'], height: 60),
                   title: Text(item['name']),
                   subtitle: Text(
                     "Cantidad: ${item['quantity']} | Subtotal: \$${item['total']}",
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
+                    icon: const Icon(Icons.delete, color: Colors.grey),
                     onPressed: () {
                       setState(() {
                         CartService.removeProduct(item['productId']);
@@ -99,40 +104,42 @@ class _CartPageState extends State<CartPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text("Total: \$${total.toStringAsFixed(2)}",
-                style: const TextStyle(fontSize: 24)),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.shopping_cart_checkout),
-                label: const Text("Finalizar compra"),
-                onPressed: () async {
-                  try {
-                    await _sendPurchase(CartService.items); // Enviar datos al backend
-                    CartService.clear(); // Limpiar carrito
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const ThankYouPage()),
-                    );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Error al realizar compra: $e")),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 218, 113, 148),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
+
+          Text("Total: \$${total.toStringAsFixed(2)}",
+              style: const TextStyle(fontSize: 24)),
+
+          const SizedBox(height: 16),
+
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async {
+                try {
+                  await _sendPurchase(CartService.items);
+                  CartService.clear();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ThankYouPage()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error al realizar compra: $e")),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: TColor.primary,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+              ),
+              child: const Text(
+                "Finalizar compra",
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
-
+          ),
         ],
       ),
-    );
-  }
+    ),
+  );
 }
-
+}

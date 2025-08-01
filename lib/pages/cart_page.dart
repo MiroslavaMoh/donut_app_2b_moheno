@@ -101,6 +101,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
+
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -109,9 +111,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   backgroundColor: TColor.primary,
                   padding: EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: Text("Proceder al Pago", style: TextStyle(fontSize: 18, color: Colors.white)),
+                child: Text("Add to cart", style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
             )
+
+            
           ],
         ),
       ),
