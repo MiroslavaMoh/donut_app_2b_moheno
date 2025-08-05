@@ -3,6 +3,9 @@ class Category {
   final String name;
 
   Category(this.id, this.name);
+
+  
+
 }
 
 final List<Category> categories = [
@@ -14,4 +17,6 @@ final List<Category> categories = [
   Category(6, 'Licores'),
   Category(7, 'Cuidado personal'),
   Category(8, 'Despensa'),
+  
 ];
+

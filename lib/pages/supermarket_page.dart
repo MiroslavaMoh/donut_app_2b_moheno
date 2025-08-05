@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 
-//Utilidades
-import 'package:flutter/material.dart';
-import 'package:donut_app_2b_moheno/common/color_extension.dart';
-import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
-
-//models
 import 'package:donut_app_2b_moheno/models/product.dart';
 import 'package:donut_app_2b_moheno/models/category.dart';
-
-//services
 import 'package:donut_app_2b_moheno/services/product_service.dart';
+import 'package:donut_app_2b_moheno/common_widget/navigate_drawer.dart';
+
+
+// To use the API
 
 
 class SuperMarketPage extends StatefulWidget {
   const SuperMarketPage({super.key});
 
+
   @override
   State<SuperMarketPage> createState() => _SuperMarketPageState();
 }
+
 
 class _SuperMarketPageState extends State<SuperMarketPage> {
   List<Product> products = [];
   bool isLoading = true;
   int? selectedCategoryId;
+
 
   @override
   void initState() {
@@ -31,14 +30,21 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
     loadProducts(); // Por defecto carga todos
   }
 
+
   Future<void> loadProducts({int? categoryId}) async {
     setState(() {
       isLoading = true;
     });
     try {
-      final fetchedProducts = categoryId == null
+      /*final fetchedProducts = categoryId == null
           ? await ProductService.getAllProducts()
-          : await ProductService.getProductsByCategory(categoryId);
+          : await ProductService.getProductsByCategory(categoryId);*/
+
+
+          // Si no se especifica una categoría, se usa la categoría 1 por defecto
+    final fetchedProducts = await ProductService.getProductsByCategory(
+      categoryId ?? 1,
+    );
       setState(() {
         products = fetchedProducts;
       });
@@ -54,15 +60,17 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
     }
   }
 
+
   Widget buildDropdown() {
     return DropdownButton<int>(
       hint: const Text("Selecciona categoría"),
       value: selectedCategoryId,
       onChanged: (value) {
+        print("Cambiando categoría a: $value");
         setState(() {
           selectedCategoryId = value;
         });
-        loadProducts(categoryId: value);
+        loadProducts(categoryId: value); // Este value debe ser válido
       },
       items: categories.map((cat) {
         return DropdownMenuItem<int>(
@@ -72,6 +80,7 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
       }).toList(),
     );
   }
+
 
   Widget buildProductCard(Product product) {
     return Card(
@@ -86,15 +95,32 @@ class _SuperMarketPageState extends State<SuperMarketPage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('SuperMarket'),
-        backgroundColor: const Color.fromARGB(255, 218, 113, 148),
-      ),
+        return Scaffold(
+        drawer: MyDrawer(), 
+          appBar: AppBar(
+          backgroundColor: Colors.transparent,
+
+          //BTN-Menu drawer
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.grey[800]),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),  
+        ),
+
+
       body: Column(
         children: [
+          Text(
+                      "¡Bievenido a Donutapp! ",
+                      style: TextStyle(fontSize: 32),
+                    ),
           Padding(
             padding: const EdgeInsets.all(12),
             child: buildDropdown(),

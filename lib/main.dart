@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const StartUpScreen(),
+      //home: const LoginPage(),
     );
   }
 }

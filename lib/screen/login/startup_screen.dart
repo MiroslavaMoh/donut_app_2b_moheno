@@ -2,12 +2,14 @@ import 'package:donut_app_2b_moheno/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+//widgets
 import 'package:donut_app_2b_moheno/common/color_extension.dart';
 import 'package:donut_app_2b_moheno/common_widget/round_button.dart';
+
+//screen
 import 'package:donut_app_2b_moheno/screen/login/login_screen.dart';
 import 'package:donut_app_2b_moheno/screen/login/sign_up_screen.dart';
-//import 'package:donut_app_2b_moheno/screen/home/welcome_screen.dart';
-//meditationapp\lib\screen\login\login_screen.dart
+import 'package:donut_app_2b_moheno/screen/login/login_auth.dart';
 
 //Página de inicio
 
@@ -84,18 +86,23 @@ class  _StartUpScreenState extends State <StartUpScreen> {
 
             //BTN-Registrarme morado
             RoundButton( //BTN de Common wodgets, recordar importar archivo round_button.dart
-              title:"Registrarme",
+              title:
+              //"Registrarme",
+              "Iniciar sesion",
               onPressed:(){
                 //context.push(const WelcomeScreen());
-                context.push(const SignUpScreen());
+                context.push(const LoginAuthScreen());
               }
             ),
 
+            /*
             //Texto de Iniciar sesión, dos colores 2 elementos
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("¿Ya tienes una cuenta?",
+                  Text(
+                    
+                  "¿Ya tienes una cuenta?",
                   textAlign: TextAlign.center,
                   style: TextStyle( 
                     color:TColor.secondaryText,
@@ -106,7 +113,8 @@ class  _StartUpScreenState extends State <StartUpScreen> {
 
                   //Conectar el boton para que te envie a login_screen
                   TextButton(onPressed: (){
-                    context.push(const LoginScreen());
+                    //context.push(const LoginScreen());
+                    context.push(const LoginAuthScreen());
                   },
 
                   //const Spacer(),
@@ -122,7 +130,10 @@ class  _StartUpScreenState extends State <StartUpScreen> {
 
                   ),
                 ],
-              ),
+              ), */
+
+
+
             const Spacer(),
           ],
       )
